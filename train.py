@@ -52,7 +52,7 @@ log = logging.getLogger(__name__)
 class TrainConfig:
     # Path
     feature_root:  str = "features"
-    dataset_root:  str = "dataset"
+    crop_root:     str = "crop"
     output_dir:    str = "output"
 
     # Dataset
@@ -395,7 +395,7 @@ def train(cfg: TrainConfig):
     log.info("Memuat dataset...")
     train_ds = ExamCheatingDataset(
         feature_root = cfg.feature_root,
-        dataset_root = cfg.dataset_root,
+        crop_root = cfg.crop_root,
         split        = "train",
         seq_len      = cfg.seq_len,
         labeling     = cfg.labeling,
@@ -403,7 +403,7 @@ def train(cfg: TrainConfig):
     )
     val_ds = ExamCheatingDataset(
         feature_root = cfg.feature_root,
-        dataset_root = cfg.dataset_root,
+        crop_root = cfg.crop_root,
         split        = "valid",
         seq_len      = cfg.seq_len,
         labeling     = cfg.labeling,
@@ -470,7 +470,6 @@ def train(cfg: TrainConfig):
         factor    = cfg.lr_factor,
         patience  = cfg.lr_patience,
         min_lr    = cfg.lr_min,
-        verbose   = False
     )
 
     # ── Early Stopping ───────────────────────────────────────────
@@ -623,6 +622,7 @@ if __name__ == "__main__":
     parser.add_argument("--feature-root",  default="features")
     parser.add_argument("--dataset-root",  default="dataset")
     parser.add_argument("--output-dir",    default="output")
+    parser.add_argument("--crop-root",     default="crop")
 
     # Model
     parser.add_argument("--hidden-dim",    type=int,   default=128)
@@ -658,7 +658,7 @@ if __name__ == "__main__":
 
     cfg = TrainConfig(
         feature_root         = args.feature_root,
-        dataset_root         = args.dataset_root,
+        crop_root            = args.crop_root,
         output_dir           = args.output_dir,
         seq_len              = args.seq_len,
         labeling             = args.labeling,
